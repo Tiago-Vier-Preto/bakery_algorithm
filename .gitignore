@@ -1,0 +1,49 @@
+#directories
+/build
+/bin
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic Libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static Libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Debug files
+*.dSYM/
+
+# Dependency files
+.depend
+*.d
+
+# CMake files
+CMakeFiles/
+CMakeCache.txt
+CMakeScripts/
+Testing/
+
+# VSCode
+.vscode/
