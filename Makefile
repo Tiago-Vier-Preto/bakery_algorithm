@@ -3,7 +3,7 @@ BIN = $(patsubst ./src/%.cpp, ./bin/%.exe, $(SRC))
 
 CXX = g++
 
-all: $(BIN)
+all: bin_dir $(BIN)
 
 ./bin/%.exe: ./src/%.cpp
 	@echo "Compiling $<..."
@@ -11,4 +11,7 @@ all: $(BIN)
 	
 clean:
 	@echo "Cleaning up..."
-	@rm -f $(BIN)
+	@rm -rf ./bin
+
+bin_dir:
+	@mkdir -p ./bin
