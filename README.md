@@ -1,6 +1,4 @@
-# Lamport's Bakery Algorithm
-
----
+<h1 align="center">Lamport's Bakery Algorithm</h1>
 
 ## Overview
 
