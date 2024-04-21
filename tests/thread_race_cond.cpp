@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <ctype.h>
-#include "../include/lamport.hpp"
+#include "../include/lamport_lib.hpp"
 
 #define handle_error_en(en, msg) \
   do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
@@ -16,9 +16,9 @@
 #define num_threads 3
 
 int shared_var = 0;
-int num_rep = 30;
+int num_rep = 30000000;
 
-struct thread_info {
+struct thread_info {    
     pthread_t id;
     int num;
 };
@@ -28,9 +28,11 @@ static void * thread_start(void *arg)
     struct thread_info *tinfo = static_cast<struct thread_info *>(arg);
     
     printf("Hello! I'm thread %d, id %lu!\n", tinfo->num, tinfo->id);
-    for (int i = 0; i < num_rep; i++)
+    lamport_mutex_lock(tinfo->num);
+    for (int i = 0; i < num_rep; i++){
         shared_var = shared_var + 1;
-    
+    }
+    lamport_mutex_unlock(tinfo->num);
     return nullptr;
 }
 
@@ -40,6 +42,7 @@ int main(int argc, char **argv)
     struct thread_info tinfo[num_threads];
     pthread_attr_t attr;
     void *res;
+    lamport_mutex_init(num_threads);
     
     if (argc > 1)
         num_rep = strtol(argv[1], nullptr, 10);
@@ -69,8 +72,6 @@ int main(int argc, char **argv)
         free(res);
     }
     printf("Global var: %d\n", shared_var);
-
-    lamport_mutex_init();
     
     exit(EXIT_SUCCESS);
 }
