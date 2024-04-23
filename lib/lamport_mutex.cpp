@@ -19,17 +19,17 @@ void lamport_mutex_init(int n_thread) {
 }
 
 void lamport_mutex_lock (int thread_id) {
-    set_choosing(thread_id, true);
-    set_ticket(thread_id, get_max_ticket() + 1);
-    set_choosing(thread_id, false);
+    set_choosing(thread_id - 1, true);
+    set_ticket(thread_id - 1, get_max_ticket() + 1);
+    set_choosing(thread_id - 1, false);
     for (int j = 0; j < get_num_threads(); j++) {
         while (get_choosing(j)) {} // do nothing
-        while ((get_ticket(j) != 0) && ((get_ticket(j) < get_ticket(thread_id)) || ((get_ticket(j) == get_ticket(thread_id)) && (j < thread_id)))) {} // do nothing
+        while ((get_ticket(j) != 0) && ((get_ticket(j) < get_ticket(thread_id - 1)) || ((get_ticket(j) == get_ticket(thread_id - 1)) && (j < thread_id - 1)))) {} // do nothing
     }
 }
 
 void lamport_mutex_unlock (int thread_id){
-    set_ticket(thread_id, 0);
+    set_ticket(thread_id - 1, 0);
 }
 
 // Getters and setters
