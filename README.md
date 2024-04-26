@@ -4,6 +4,28 @@
 
 The Lamport's Bakery Algorithm is a synchronization algorithm designed to solve the critical section problem, ensuring mutual exclusion in concurrent systems. It was proposed by computer scientist Leslie Lamport in 1974.
 
+## Building the Library
+
+You must build the library executable before you can run the import.
+
+```makefile
+make build 
+```
+
+## Running Tests
+```makefile
+# run test with lamport mutex algorithm
+make lamport_test
+
+# run test with POSIX pthreads API
+make pthread_mutex_test
+```
+
+### Comparing Implementations
+```makefile
+# compare time executions
+make compare
+```
 
 ## References
 
