@@ -16,7 +16,7 @@
 #define num_threads 3
 
 int shared_var = 0;
-int num_rep = 30000000;
+int num_rep = 3000000;
 
 struct thread_info {    
     pthread_t id;
@@ -28,11 +28,13 @@ static void * thread_start(void *arg)
     struct thread_info *tinfo = static_cast<struct thread_info *>(arg);
     
     printf("Hello! I'm thread %d, id %lu!\n", tinfo->num, tinfo->id);
-    lamport_mutex_lock(tinfo->num);
+    printf("%d\n", tinfo->num);
     for (int i = 0; i < num_rep; i++){
+        lamport_mutex_lock(tinfo->num);
         shared_var = shared_var + 1;
+        lamport_mutex_unlock(tinfo->num);
     }
-    lamport_mutex_unlock(tinfo->num);
+    
     return nullptr;
 }
 
@@ -42,7 +44,7 @@ int main(int argc, char **argv)
     struct thread_info tinfo[num_threads];
     pthread_attr_t attr;
     void *res;
-    lamport_mutex_init(num_threads);
+    lamport_mutex_init();
     
     if (argc > 1)
         num_rep = strtol(argv[1], nullptr, 10);
